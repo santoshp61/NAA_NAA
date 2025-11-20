@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import OrderPanel from "./OrderPanel"; // ✅ Ensure correct path
+
 
 const categories = [
   {
@@ -80,13 +80,8 @@ const FirstSection = () => {
                   <h3 className="text-xl font-semibold text-white mt-4">
                     {item.name}
                   </h3>
-                  <p className="text-lg text-gray-400 mt-2">{item.price}</p>
-                  <button
-                    onClick={() => handleOrderClick(item)}
-                    className="mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition text-lg font-medium"
-                  >
-                    Order Now
-                  </button>
+
+
                 </div>
               ))}
 
@@ -106,9 +101,7 @@ const FirstSection = () => {
         ))}
       </div>
 
-      {selectedProduct && (
-        <OrderPanel product={selectedProduct} onClose={handleClosePanel} />
-      )}
+
     </section>
   );
 };
