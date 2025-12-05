@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-
 const categories = [
   {
     title: "Women's Collection",
@@ -66,11 +65,15 @@ const FirstSection = () => {
             <h2 className="text-3xl font-bold text-center mb-6 text-white tracking-wide">
               {category.title}
             </h2>
+
             <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-5 gap-6">
+
+              {/* Product Cards */}
               {category.items.slice(0, 4).map((item, idx) => (
                 <div
                   key={idx}
-                  className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-2xl transition-all border border-gray-700"
+                  onClick={() => handleOrderClick(item)}
+                  className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-2xl transition-all border border-gray-700 cursor-pointer"
                 >
                   <img
                     src={item.image}
@@ -80,11 +83,10 @@ const FirstSection = () => {
                   <h3 className="text-xl font-semibold text-white mt-4">
                     {item.name}
                   </h3>
-
-
                 </div>
               ))}
 
+              {/* See More Button */}
               <Link
                 to={category.link}
                 className="flex flex-col items-center justify-center bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-2xl transition-all cursor-pointer border border-gray-700"
@@ -101,7 +103,32 @@ const FirstSection = () => {
         ))}
       </div>
 
+      {/* ORDER PANEL POPUP */}
+      {selectedProduct && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-xl w-96 text-black relative">
+            <button
+              onClick={handleClosePanel}
+              className="absolute top-2 right-3 text-xl font-bold"
+            >
+              ×
+            </button>
 
+            <img
+              src={selectedProduct.image}
+              className="w-full h-60 object-cover rounded-lg"
+              alt=""
+            />
+
+            <h2 className="text-2xl font-bold mt-4">{selectedProduct.name}</h2>
+            <p className="text-lg text-gray-600 mt-2">{selectedProduct.price}</p>
+
+            <button className="mt-5 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold">
+              Order Now
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
