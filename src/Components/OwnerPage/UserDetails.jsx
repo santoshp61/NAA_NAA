@@ -4,7 +4,6 @@ const UserDetails = () => {
     const [users, setUsers] = useState([]);
 
     useEffect(() => {
-        // Fetch users from backend
         fetch("http://localhost:5000/api/users")
             .then(res => res.json())
             .then(data => setUsers(data))
@@ -12,35 +11,38 @@ const UserDetails = () => {
     }, []);
 
     return (
-        <div className="p-5">
-            <h2>User Details</h2>
-            <table border="1" cellPadding="10" style={{ width: "100%", marginTop: "20px" }}>
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Phone</th>
-                        <th>Joined On</th>
-                    </tr>
-                </thead>
+        <div className="p-8">
+            <h2 className="text-2xl font-bold text-yellow-500 mb-6">User Details</h2>
 
-                <tbody>
-                    {users.length > 0 ? (
-                        users.map((u) => (
-                            <tr key={u._id}>
-                                <td>{u._id}</td>
-                                <td>{u.name}</td>
-                                <td>{u.phone}</td>
-                                <td>{u.createdAt}</td>
-                            </tr>
-                        ))
-                    ) : (
+            <div className="overflow-x-auto bg-black p-4 rounded-xl shadow-lg border border-yellow-600">
+                <table className="w-full text-left text-yellow-300">
+                    <thead className="border-b border-yellow-500 text-yellow-400">
                         <tr>
-                            <td colSpan="4">No users found</td>
+                            <th className="p-3">User ID</th>
+                            <th className="p-3">Name</th>
+                            <th className="p-3">Phone</th>
+                            <th className="p-3">Joined On</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {users.length > 0 ? (
+                            users.map((u) => (
+                                <tr key={u._id} className="hover:bg-yellow-600 hover:text-black transition">
+                                    <td className="p-3">{u._id}</td>
+                                    <td className="p-3">{u.name}</td>
+                                    <td className="p-3">{u.phone}</td>
+                                    <td className="p-3">{u.createdAt}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="text-center p-4">No users found</td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

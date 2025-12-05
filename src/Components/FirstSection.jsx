@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const categories = [
   {
@@ -49,8 +49,10 @@ const categories = [
 const FirstSection = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
 
+  const navigate = useNavigate(); // ✅ FIXED — hook inside component
+
   const handleOrderClick = (item) => {
-    setSelectedProduct(item);
+    navigate("/order", { state: { product: item } });
   };
 
   const handleClosePanel = () => {
@@ -123,7 +125,12 @@ const FirstSection = () => {
             <h2 className="text-2xl font-bold mt-4">{selectedProduct.name}</h2>
             <p className="text-lg text-gray-600 mt-2">{selectedProduct.price}</p>
 
-            <button className="mt-5 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold">
+            <button
+              onClick={() =>
+                navigate("/order", { state: { product: selectedProduct } })
+              }
+              className="mt-5 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
+            >
               Order Now
             </button>
           </div>

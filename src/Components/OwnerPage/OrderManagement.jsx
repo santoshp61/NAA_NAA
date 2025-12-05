@@ -5,42 +5,53 @@ const OrderManagement = () => {
 
     useEffect(() => {
         fetch("http://localhost:5000/api/orders")
-            .then(res => res.json())
-            .then(data => setOrders(data))
-            .catch(err => console.log(err));
+            .then((res) => res.json())
+            .then((data) => setOrders(data))
+            .catch((err) => console.log(err));
     }, []);
 
     return (
-        <div className="p-5">
-            <h2>Order Management</h2>
+        <div className="p-6 bg-black min-h-screen text-white rounded-xl shadow-lg">
+            {/* Title */}
+            <h2 className="text-3xl font-bold text-yellow-400 mb-6 border-b border-yellow-500 pb-2">
+                Order Management
+            </h2>
 
-            <table border="1" cellPadding="10" style={{ width: "100%", marginTop: "20px" }}>
-                <thead>
-                    <tr>
-                        <th>Order ID</th>
-                        <th>User</th>
-                        <th>Total</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {orders.length ? (
-                        orders.map(o => (
-                            <tr key={o._id}>
-                                <td>{o._id}</td>
-                                <td>{o.user}</td>
-                                <td>{o.totalAmount}</td>
-                                <td>{o.status}</td>
-                            </tr>
-                        ))
-                    ) : (
+            {/* Table */}
+            <div className="overflow-x-auto rounded-lg shadow-md border border-yellow-600">
+                <table className="w-full text-left">
+                    <thead className="bg-yellow-500 text-black font-semibold">
                         <tr>
-                            <td colSpan="4">No Orders found</td>
+                            <th className="p-3 border-r border-black">Order ID</th>
+                            <th className="p-3 border-r border-black">User</th>
+                            <th className="p-3 border-r border-black">Total</th>
+                            <th className="p-3">Status</th>
                         </tr>
-                    )}
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody>
+                        {orders.length ? (
+                            orders.map((o) => (
+                                <tr
+                                    key={o._id}
+                                    className="border-b border-yellow-800 hover:bg-gray-900 transition"
+                                >
+                                    <td className="p-3">{o._id}</td>
+                                    <td className="p-3">{o.user}</td>
+                                    <td className="p-3">Rs {o.totalAmount}</td>
+                                    <td className="p-3 text-yellow-300">{o.status}</td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="4" className="p-5 text-center text-yellow-400">
+                                    No Orders Found
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
