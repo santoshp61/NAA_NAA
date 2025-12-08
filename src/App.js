@@ -21,6 +21,7 @@ import OwnerLogin from "./Components/OwnerLogin";
 import OrderManagement from "./Components/OwnerPage/OrderManagement";
 import ProductManagement from "./Components/OwnerPage/ProductManagement";
 import UserDetails from "./Components/OwnerPage/UserDetails";
+import TotalRevenue from "./Components/OwnerPage/TotalRevinue";
 
 const App = () => {
   return (
@@ -54,6 +55,7 @@ const App = () => {
         <Route path="/owner/orders" element={<OrderManagement />} />
         <Route path="/owner/products" element={<ProductManagement />} />
         <Route path="/owner/UserDetails" element={<UserDetails />} />
+        <Route path="/owner/total-revenue" element={<TotalRevenue />} />
 
       </Routes>
 
