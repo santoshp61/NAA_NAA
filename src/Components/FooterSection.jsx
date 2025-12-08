@@ -9,7 +9,7 @@ const Footer = () => {
         <div>
           <h2 className="text-2xl font-bold">Gaamodaa</h2>
           <p className="mt-2 text-gray-400">
-            Gaamodaa is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
+            NAA NAA is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
             We aim to bring quality content, seamless services, and user-friendly experiences to our audience. Whether you are looking for
             insights, services, or simply a place to engage with meaningful content, Gaamodaa is the platform that connects you to endless
             possibilities. Our commitment to innovation and excellence ensures that you always get the best experiences possible.
@@ -40,7 +40,7 @@ const Footer = () => {
 
       {/* Copyright */}
       <div className="mt-8 text-center text-gray-500 text-sm">
-        &copy; {new Date().getFullYear()} Gaamodaa. All rights reserved.
+        &copy; {new Date().getFullYear()} NAA NAA. All rights reserved.
       </div>
     </footer>
   );

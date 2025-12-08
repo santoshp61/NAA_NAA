@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const slides = [
   {
     title: "Elevate Your Style",
-    description: "Upgrade your fashion with GAA MODAA. Find your perfect outfit today!",
+    description: "Upgrade your fashion with NAA NAA . Find your perfect outfit today!",
     image: "/Image/woman-model-next.png",
     link: "/womens",
   },
