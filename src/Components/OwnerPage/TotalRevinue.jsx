@@ -10,10 +10,12 @@ const TotalRevenue = () => {
             .then(data => {
                 setOrders(data);
 
-                // Calculate total revenue
-                const revenue = data
-                    .filter(o => o.status === "Delivered")  // Only delivered orders count as revenue
-                    .reduce((sum, order) => sum + Number(order.totalAmount), 0);
+                let deliveredOrders = data.filter(o => o.status === "Delivered");
+
+                let revenue = deliveredOrders.reduce(
+                    (sum, order) => sum + Number(order.totalAmount),
+                    0
+                );
 
                 setTotalRevenue(revenue);
             })
@@ -31,7 +33,7 @@ const TotalRevenue = () => {
             {/* Revenue Summary */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {/* Revenue Box */}
+                {/* Revenue Boxnpm  */}
                 <div className="bg-gray-900 border border-yellow-700 p-6 rounded-xl shadow-lg">
                     <h2 className="text-xl text-yellow-400 font-semibold">Total Revenue</h2>
                     <p className="text-3xl font-bold mt-3 text-yellow-500">

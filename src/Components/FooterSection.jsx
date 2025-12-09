@@ -7,7 +7,7 @@ const Footer = () => {
       <div className="container mx-auto px-4 text-center md:text-left grid grid-cols-1 md:grid-cols-3 gap-8">
         {/* Logo and Description */}
         <div>
-          <h2 className="text-2xl font-bold">Gaamodaa</h2>
+          <h2 className="text-2xl font-bold">NAA NAA</h2>
           <p className="mt-2 text-gray-400">
             NAA NAA is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
             We aim to bring quality content, seamless services, and user-friendly experiences to our audience. Whether you are looking for
