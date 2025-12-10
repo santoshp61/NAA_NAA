@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OrderPanel from "./OrderPanel"; // Make sure this points to your actual OrderPanel component
 
 const categories = [
   {
@@ -12,7 +13,6 @@ const categories = [
       { name: "Evening Gown", image: "Image/young-woman-beautiful-yellow-dress.jpg", price: "₨ 11,499" }
     ]
   },
-
   {
     title: "Men's Collection",
     link: "/mens",
@@ -23,7 +23,6 @@ const categories = [
       { name: "Winter Coat", image: "Image/Winter_Coat.jpg", price: "₨ 18,999" }
     ]
   },
-
   {
     title: "Accessories",
     link: "/accessories",
@@ -34,7 +33,6 @@ const categories = [
       { name: "Gentlemen Accessories Pack", image: "Image/Accessories_for_men_care.jpg", price: "₨ 4,299" }
     ]
   },
-
   {
     title: "Sales",
     link: "/sales",
@@ -76,26 +74,31 @@ const FirstSection = () => {
                 <div
                   key={idx}
                   onClick={() => openOrderPanel(item)}
-                  className="bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-2xl transition-all cursor-pointer border border-gray-700"
+                  className="bg-gray-800 rounded-2xl shadow-lg p-4 hover:shadow-blue-500/40 transition-all cursor-pointer border border-gray-700 hover:border-blue-400/60"
                 >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full h-60 object-cover rounded-lg pointer-events-none"
-                  />
+                  <div className="w-full h-60 overflow-hidden rounded-xl relative hover:scale-105 transition-transform duration-500">
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/25 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 text-white font-bold text-lg">
+                      Click to Order
+                    </div>
+                  </div>
                   <h3 className="text-xl font-semibold text-white mt-4">
                     {item.name}
                   </h3>
+                  <p className="text-lg text-gray-300 mt-2">{item.price}</p>
                 </div>
-
               ))}
 
               {/* SEE MORE */}
               <Link
                 to={category.link}
-                className="flex flex-col items-center justify-center bg-gray-800 rounded-lg shadow-lg p-4 hover:shadow-2xl transition-all cursor-pointer border border-gray-700"
+                className="flex flex-col items-center justify-center bg-gray-800 rounded-2xl shadow-lg p-4 hover:shadow-blue-500/40 transition-all cursor-pointer border border-gray-700 hover:border-blue-400/60"
               >
-                <div className="w-full h-60 flex items-center justify-center bg-gray-700 rounded-lg">
+                <div className="w-full h-60 flex items-center justify-center bg-gray-700 rounded-xl">
                   <span className="text-xl font-bold text-blue-400">See More</span>
                 </div>
                 <h3 className="text-xl font-semibold text-white mt-4 text-center">
@@ -108,36 +111,9 @@ const FirstSection = () => {
         ))}
       </div>
 
-      {/* ORDER POPUP */}
+      {/* ORDER PANEL */}
       {selectedProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-xl w-96 text-black relative">
-
-            <button
-              onClick={closePanel}
-              className="absolute top-2 right-3 text-2xl font-bold"
-            >
-              ×
-            </button>
-
-            <img
-              src={selectedProduct.image}
-              className="w-full h-60 object-cover rounded-lg"
-              alt=""
-            />
-
-            <h2 className="text-2xl font-bold mt-4">{selectedProduct.name}</h2>
-            <p className="text-lg text-gray-600 mt-2">{selectedProduct.price}</p>
-
-            <button
-              onClick={() => navigate("/order", { state: { product: selectedProduct } })}
-              className="mt-5 w-full bg-blue-600 text-white py-2 rounded-lg font-semibold"
-            >
-              Order Now
-            </button>
-
-          </div>
-        </div>
+        <OrderPanel product={selectedProduct} onClose={closePanel} />
       )}
     </section>
   );

@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import OrderPanel from "./OrderPanel"; // Make sure this points to your actual OrderPanel component
 
 const womensItems = [
   { id: 1, name: "Elegant Dress", image: "Image/high-fashion-look-glamor-stylish-sexy-smiling-beautiful-young-woman-model-summer-black-hipster-dress.jpg", price: 6999 },
@@ -20,12 +20,22 @@ const womensItems = [
 ];
 
 const WomensPage = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const handleOpenPanel = (product) => {
+    setSelectedProduct(product);
+  };
+
+  const handleClosePanel = () => {
+    setSelectedProduct(null);
+  };
+
   return (
     <section className="relative w-full py-16 bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
 
         {/* Title */}
-        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-pink-400 via-purple-400 to-blue-400 drop-shadow-lg">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-lg">
           Women's Full Collection
         </h2>
 
@@ -34,33 +44,39 @@ const WomensPage = () => {
           {womensItems.map((item) => (
             <div
               key={item.id}
-              className="bg-gray-800 rounded-2xl shadow-lg border border-gray-700 hover:border-pink-400/60 hover:shadow-pink-500/30 p-5 transition-all duration-300 hover:-translate-y-2"
+              className="bg-gray-800 rounded-2xl shadow-lg border border-gray-700 hover:border-blue-400/60 hover:shadow-blue-500/30 p-5 transition-all duration-300 hover:-translate-y-2"
             >
-              <img
-                src={item.image}
-                alt={item.name}
-                className="w-full h-60 object-cover rounded-xl mb-4 hover:scale-105 transition-transform duration-500"
-              />
+              {/* Clickable Image Section */}
+              <div
+                onClick={() => handleOpenPanel(item)}
+                className="cursor-pointer w-full h-60 overflow-hidden rounded-xl mb-4 hover:scale-105 transition-transform duration-500 relative"
+              >
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-black/25 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 text-white font-bold text-lg">
+                  Click to Order
+                </div>
+              </div>
+
               <h3 className="text-xl font-semibold">{item.name}</h3>
               <p className="text-lg text-gray-300 mt-2">
                 रु {item.price.toLocaleString()}
               </p>
-
-              {/* Order Now Button */}
-              <Link
-                to="/order"
-                state={{ product: item }}
-                className="mt-5 block text-center bg-gradient-to-r from-pink-600 to-purple-600 hover:from-purple-700 hover:to-pink-700 text-white py-2.5 rounded-lg font-medium shadow-md hover:shadow-pink-500/40 transition-all duration-300"
-              >
-                Order Now
-              </Link>
             </div>
           ))}
         </div>
 
         {/* Decorative Glow */}
-        <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500"></div>
+        <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
       </div>
+
+      {/* Render OrderPanel if a product is selected */}
+      {selectedProduct && (
+        <OrderPanel product={selectedProduct} onClose={handleClosePanel} />
+      )}
     </section>
   );
 };
