@@ -81,12 +81,13 @@ const FirstSection = () => {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="w-full h-60 object-cover rounded-lg"
+                    className="w-full h-60 object-cover rounded-lg pointer-events-none"
                   />
                   <h3 className="text-xl font-semibold text-white mt-4">
                     {item.name}
                   </h3>
                 </div>
+
               ))}
 
               {/* SEE MORE */}
