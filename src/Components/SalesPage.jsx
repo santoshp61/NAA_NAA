@@ -20,7 +20,7 @@ const SalesPage = () => {
         <h2 className="text-4xl md:text-5xl font-extrabold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 drop-shadow-lg">
           Sales Collection
         </h2>
-
+        */ggvv/*
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
           {salesItems.map((item, index) => (
