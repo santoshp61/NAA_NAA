@@ -1,119 +1,166 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-function Login() {
-  const navigate = useNavigate();
+const SIZES = ["S", "M", "L", "XL"];
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+const FloatingInput = ({ label, type = "text", value, onChange, min }) => (
+  <div className="relative">
+    <input
+      type={type}
+      min={min}
+      value={value}
+      onChange={onChange}
+      required
+      className="peer w-full rounded-lg border border-gray-700 bg-gray-800 px-3 py-3 text-white focus:border-blue-500 focus:outline-none"
+    />
+    <label
+      className="
+        pointer-events-none absolute left-3 top-3 text-sm text-gray-400 transition-all
+        peer-focus:-top-2 peer-focus:text-xs peer-focus:text-blue-400 peer-focus:bg-gray-900 peer-focus:px-1
+        peer-valid:-top-2 peer-valid:text-xs peer-valid:bg-gray-900 peer-valid:px-1
+      "
+    >
+      {label}
+    </label>
+  </div>
+);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const OrderPanel = ({ product, onClose, onAddToCart, onBuyNow }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [size, setSize] = useState("M");
 
-    if (!email || !password) {
-      setError("Please enter both email and password.");
-      return;
-    }
+  useEffect(() => {
+    setQuantity(1);
+    setSize("M");
+  }, [product]);
 
-    setError("");
+  if (!product) return null;
 
-    try {
-      const response = await fetch("http://localhost:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        alert(data.message);
-        setEmail("");
-        setPassword("");
-        navigate("/owner");
-      } else {
-        setError(data.message);
-      }
-    } catch {
-      setError("Something went wrong. Please try again.");
-    }
-  };
+  const unitPrice = Number(product.price?.replace(/[^0-9]/g, "") || 0);
+  const totalPrice = quantity * unitPrice;
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-black to-gray-800 px-4">
-      <div className="w-full max-w-md bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl p-8 text-gray-100 backdrop-blur-md transition-transform hover:scale-[1.01] duration-200
-                      hover:shadow-[0_0_40px_#4f46e5]">
-        {/* Title */}
-        <h2 className="text-3xl font-bold text-center mb-6 text-white tracking-wide text-purple-400 drop-shadow-lg">
-          Welcome Back 👋
-        </h2>
-        <p className="text-center text-gray-400 mb-8 drop-shadow-sm">
-          Sign in to access your owner dashboard
-        </p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="w-full max-w-5xl rounded-2xl bg-gray-900 text-white shadow-2xl">
 
-        {/* Error message */}
-        {error && (
-          <div className="mb-4 text-red-400 bg-red-900/20 border border-red-600 text-center py-2 rounded-md drop-shadow-md">
-            {error}
-          </div>
-        )}
-
-        {/* Login Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-[0_0_10px_#7c3aed] transition"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-gray-200 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-[0_0_10px_#7c3aed] transition"
-              placeholder="********"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="mt-4 w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-2.5 rounded-md shadow-lg shadow-purple-500/50 hover:shadow-[0_0_25px_#7c3aed] transition-all duration-300"
-          >
-            Sign In
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-700 px-6 py-4">
+          <h2 className="text-lg font-semibold">Place Order</h2>
+          <button onClick={onClose} className="text-3xl text-gray-400 hover:text-white">
+            ×
           </button>
-        </form>
+        </div>
 
-        {/* Divider */}
-        <div className="my-6 border-t border-gray-700"></div>
+        {/* Body */}
+        <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
 
-        {/* Footer */}
-        <p className="text-center text-sm text-gray-400">
-          Don’t have an account?{" "}
-          <span
-            className="text-purple-400 hover:underline cursor-pointer drop-shadow-sm"
-            onClick={() => navigate("/SignUp")} // ✅ Navigate to Sign-Up page
+          {/* LEFT IMAGE */}
+          <div className="flex justify-center">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-72 w-72 rounded-xl object-cover bg-gray-800"
+            />
+          </div>
+
+          {/* RIGHT INFO */}
+          <div className="space-y-5">
+            <h3 className="text-xl font-semibold">{product.name}</h3>
+            <p className="text-2xl font-bold text-blue-400">{product.price}</p>
+
+            {/* Size */}
+            <div>
+              <p className="mb-2 text-sm text-gray-300">Size</p>
+              <div className="flex gap-2">
+                {SIZES.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSize(s)}
+                    className={`rounded-lg border px-4 py-1 transition ${size === s
+                        ? "border-blue-500 bg-blue-500/10 text-blue-400"
+                        : "border-gray-700 text-gray-400 hover:border-gray-500"
+                      }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity */}
+            <FloatingInput
+              label="Quantity"
+              type="number"
+              min={1}
+              value={quantity}
+              onChange={(e) =>
+                setQuantity(Math.max(1, Number(e.target.value || 1)))
+              }
+            />
+
+            {/* Total */}
+            <div className="flex items-center justify-between border-t border-gray-700 pt-4 font-semibold">
+              <span className="text-gray-300">Total</span>
+              <span className="text-xl text-blue-400">Rs. {totalPrice}</span>
+            </div>
+
+            {/* You May Like */}
+            {product.related?.length > 0 && (
+              <div className="border-t border-gray-700 pt-6">
+                <h4 className="mb-3 text-sm font-semibold text-gray-300">
+                  You may like
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {[...product.related]
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3)
+                    .map((item) => (
+                      <div
+                        key={item.id}
+                        className="cursor-pointer rounded-lg bg-gray-800 p-2 hover:bg-gray-700"
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-20 w-full rounded-md object-cover"
+                        />
+                        <p className="mt-1 truncate text-xs text-gray-300">
+                          {item.name}
+                        </p>
+                        <p className="text-xs text-blue-400">{item.price}</p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Footer Buttons */}
+        <div className="flex gap-4 border-t border-gray-700 px-6 py-4">
+          <button
+            onClick={() => onAddToCart?.({ product, quantity, size })}
+            className="flex-1 rounded-lg bg-gray-700 py-3 font-semibold hover:bg-gray-600"
           >
-            Sign Up
-          </span>
-        </p>
+            Add to Cart
+          </button>
+          <button
+            onClick={() => onBuyNow?.({ product, quantity, size })}
+            className="flex-1 rounded-lg bg-blue-600 py-3 font-semibold hover:bg-blue-700"
+          >
+            Buy Now
+          </button>
+        </div>
       </div>
-    </main>
+    </div>
   );
-}
+};
 
-export default Login;
+OrderPanel.propTypes = {
+  product: PropTypes.object,
+  onClose: PropTypes.func.isRequired,
+  onAddToCart: PropTypes.func,
+  onBuyNow: PropTypes.func,
+};
+
+export default OrderPanel;

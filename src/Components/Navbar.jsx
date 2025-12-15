@@ -32,7 +32,7 @@ function Navbar() {
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2">
           <span className="text-2xl font-bold tracking-widest text-white">
-            NA NA
+            NAA NAA
           </span>
         </Link>
 

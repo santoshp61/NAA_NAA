@@ -1,104 +1,156 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
-const OrderPanel = ({ product, onClose }) => {
+const SIZES = ["S", "M", "L", "XL"];
+
+const OrderPanel = ({ product, onClose, onAddToCart, onBuyNow }) => {
   const [quantity, setQuantity] = useState(1);
-  const [size, setSize] = useState("");
+  const [size, setSize] = useState("M");
+
+  useEffect(() => {
+    setQuantity(1);
+    setSize("M");
+  }, [product]);
 
   if (!product) return null;
 
+  const unitPrice = Number(product.price?.replace(/[^0-9]/g, "") || 0);
+  const totalPrice = quantity * unitPrice;
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-900 text-white rounded-2xl max-w-5xl w-full p-6 sm:p-8 shadow-2xl relative">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+      <div className="relative w-full max-w-5xl rounded-2xl bg-gray-900 text-white shadow-2xl">
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-gray-700 px-6 py-4">
+          <h2 className="text-lg font-semibold">Place Order</h2>
+          <button
+            onClick={onClose}
+            className="text-3xl text-gray-400 hover:text-white"
+          >
+            ×
+          </button>
+        </div>
 
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-3xl text-gray-400 hover:text-white"
-        >
-          ×
-        </button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-          {/* LEFT SIDE — IMAGE + QUANTITY + SIZE */}
-          <div className="flex flex-col items-center">
-            {/* Product Image */}
-            <div className="w-full h-72 sm:h-96 bg-gray-800 rounded-xl flex items-center justify-center overflow-hidden">
-              <img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-              />
-            </div>
-
-            {/* Quantity + Size Section */}
-            <div className="w-full mt-6 p-4 bg-gray-800 rounded-xl text-center">
-              <h3 className="text-lg font-semibold">QUANTITY & SIZE</h3>
-
-              {/* Quantity */}
-              <div className="mt-4">
-                <label className="block mb-1 text-sm">Select Quantity</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={quantity}
-                  onChange={(e) => setQuantity(e.target.value)}
-                  className="w-24 text-black px-3 py-2 rounded-lg"
-                />
-              </div>
-
-              {/* Size Dropdown */}
-              <div className="mt-4">
-                <label className="block mb-1 text-sm">Select Size</label>
-                <select
-                  value={size}
-                  onChange={(e) => setSize(e.target.value)}
-                  className="w-40 text-black px-3 py-2 rounded-lg"
-                >
-                  <option value="">Choose size</option>
-                  <option value="S">Small (S)</option>
-                  <option value="M">Medium (M)</option>
-                  <option value="L">Large (L)</option>
-                  <option value="XL">Extra Large (XL)</option>
-                </select>
-              </div>
-            </div>
+        {/* Body */}
+        <div className="grid grid-cols-1 gap-6 p-6 md:grid-cols-2">
+          {/* LEFT IMAGE */}
+          <div className="flex justify-center">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="h-72 w-72 rounded-xl object-cover bg-gray-800"
+            />
           </div>
 
-          {/* RIGHT SIDE — DETAILS + BUTTONS */}
-          <div className="flex flex-col justify-between">
+          {/* RIGHT INFO */}
+          <div className="space-y-5">
+            <h3 className="text-xl font-semibold">{product.name}</h3>
+            <p className="text-2xl font-bold text-blue-400">{product.price}</p>
 
-            {/* Details */}
+            {/* Size */}
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold mb-2">DETAILS</h2>
-              <hr className="border-gray-700 mb-4" />
-
-              <p className="text-gray-300 text-sm sm:text-base leading-relaxed">
-                {product.description || "This is a premium clothing item with high-quality fabric and excellent comfort."}
-              </p>
-
-              <p className="mt-4 text-xl font-semibold text-blue-400">
-                Price: {product.price}
-              </p>
+              <p className="mb-2 text-sm text-gray-300">Size</p>
+              <div className="flex gap-2">
+                {SIZES.map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => setSize(s)}
+                    className={`rounded-lg border px-4 py-1 transition ${size === s
+                        ? "border-blue-500 bg-blue-500/10 text-blue-400"
+                        : "border-gray-700 text-gray-400 hover:border-gray-500"
+                      }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
             </div>
 
-            {/* Buttons Row */}
-            <div className="grid grid-cols-2 gap-4 mt-8">
-              <button className="bg-gray-700 hover:bg-gray-600 py-3 rounded-lg font-semibold">
-                Add to Cart
-              </button>
-
-              <button className="bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-semibold">
-                Buy Now
-              </button>
+            {/* Quantity */}
+            <div>
+              <p className="mb-2 text-sm text-gray-300">Quantity</p>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="h-9 w-9 rounded-lg border border-gray-700 hover:bg-gray-800"
+                >
+                  −
+                </button>
+                <span className="min-w-[24px] text-center font-semibold">
+                  {quantity}
+                </span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="h-9 w-9 rounded-lg border border-gray-700 hover:bg-gray-800"
+                >
+                  +
+                </button>
+              </div>
             </div>
 
+            {/* Total */}
+            <div className="flex items-center justify-between border-t border-gray-700 pt-4 font-semibold">
+              <span className="text-gray-300">Total</span>
+              <span className="text-xl text-blue-400">Rs. {totalPrice}</span>
+            </div>
+
+            {/* You May Like */}
+            {product.related?.length > 0 && (
+              <div className="border-t border-gray-700 pt-6">
+                <h4 className="mb-3 text-sm font-semibold text-gray-300">
+                  You may like
+                </h4>
+                <div className="grid grid-cols-3 gap-3">
+                  {[...product.related]
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3)
+                    .map((item) => (
+                      <div
+                        key={item.id}
+                        className="cursor-pointer rounded-lg bg-gray-800 p-2 hover:bg-gray-700"
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="h-20 w-full rounded-md object-cover"
+                        />
+                        <p className="mt-1 truncate text-xs text-gray-300">
+                          {item.name}
+                        </p>
+                        <p className="text-xs text-blue-400">{item.price}</p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
           </div>
+        </div>
 
+        {/* Footer Buttons */}
+        <div className="flex gap-4 border-t border-gray-700 px-6 py-4">
+          <button
+            onClick={() => onAddToCart?.({ product, quantity, size })}
+            className="flex-1 rounded-lg bg-gray-700 py-3 font-semibold hover:bg-gray-600"
+          >
+            Add to Cart
+          </button>
+          <button
+            onClick={() => onBuyNow?.({ product, quantity, size })}
+            className="flex-1 rounded-lg bg-blue-600 py-3 font-semibold hover:bg-blue-700"
+          >
+            Buy Now
+          </button>
         </div>
       </div>
     </div>
   );
+};
+
+OrderPanel.propTypes = {
+  product: PropTypes.object,
+  onClose: PropTypes.func.isRequired,
+  onAddToCart: PropTypes.func,
+  onBuyNow: PropTypes.func,
 };
 
 export default OrderPanel;
