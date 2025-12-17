@@ -6,7 +6,7 @@ const AboutUs = () => {
       <div className="max-w-5xl mx-auto px-6 text-center">
         <h1 className="text-4xl font-bold text-gray-100 mb-6">About NAA NAA</h1>
         <p className="text-lg text-gray-100 mb-4">
-          NA NA is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
+          NAA NAA is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
           We aim to bring quality content, seamless services, and user-friendly experiences to our audience.
         </p>
         <p className="text-lg text-gray-100 mb-4">

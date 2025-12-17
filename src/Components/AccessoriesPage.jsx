@@ -4,7 +4,7 @@ const accessoriesItems = [
   { name: "Men Accessories", image: "Image/Accessories_1.jpg", price: "Up to 11% Discount" },
   { name: "Female Accessories", image: "Image/Accessories_for_female.jpg", price: "Up to 25% Discount" },
   { name: "Makeup Accessories", image: "Image/Accessories_for_women.jpg", price: "Up to 30% Discount" },
-  { name: "GentalMen Accessories", image: "Image/Accessories_for _men_care.jpg", price: "Up to 18% Discount" },
+  { name: "Gentel men Accessories", image: "Image/Accessories_for _men_care.jpg", price: "Up to 18% Discount" },
   { name: "Package Accessories", image: "Image/model-career-kit-still-life.jpg", price: "Up to 5% Discount" },
   { name: "Leather Wallet", image: "Image/leather-wallet.jpg", price: "Up to 50% Discount" },
   { name: "Sunglasses", image: "Image/sunglasses.jpg", price: "Up to 3% Discount" },
