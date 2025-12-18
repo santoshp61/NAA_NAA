@@ -17,6 +17,7 @@ const AboutUs = () => {
           Thank you for being part of our journey. We’re excited to have you with us as we continue to grow and improve every day.
         </p>
       </div>
+      break
     </section>
   );
 };
