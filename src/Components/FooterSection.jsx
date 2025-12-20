@@ -11,7 +11,7 @@ const Footer = () => {
           <p className="mt-2 text-gray-400">
             NAA NAA is your ultimate destination for discovering, exploring, and experiencing the best that the digital world has to offer.
             We aim to bring quality content, seamless services, and user-friendly experiences to our audience. Whether you are looking for
-            insights, services, or simply a place to engage with meaningful content, Gaamodaa is the platform that connects you to endless
+            insights, services, or simply a place to engage with meaningful content, NAA NAA is the platform that connects you to endless
             possibilities. Our commitment to innovation and excellence ensures that you always get the best experiences possible.
           </p>
         </div>
