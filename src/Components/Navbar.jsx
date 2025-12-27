@@ -102,14 +102,33 @@ function Navbar() {
           </button>
         </div>
       </div>
+      {/* ✅ signin Button */}
+      <Link
+        to="/Logup"
+        className="hidden md:inline-block px-4 py-2 border border-blue-600 rounded-md text-blue-400 hover:bg-blue-600 hover:text-white transition-all"
+      >
+        Signin
+      </Link>
+
+      {/* Mobile Menu Button */}
+      <button
+        className="md:hidden p-2 border border-gray-700 rounded-md hover:bg-gray-700"
+        onClick={toggleMenu}
+      >
+        <Bars3Icon className="h-5 w-5" />
+      </button>
+
+
 
       {/* Mobile Menu Overlay */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-70 z-40"
-          onClick={toggleMenu}
-        ></div>
-      )}
+      {
+        menuOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-70 z-40"
+            onClick={toggleMenu}
+          ></div>
+        )
+      }
 
       {/* Mobile Menu Panel */}
       <div
@@ -179,7 +198,7 @@ function Navbar() {
           </Link>
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 
