@@ -17,7 +17,7 @@ import Login from "./Components/Login";
 import Cart from "./Components/Cart";
 import OwnerPanel from "./Components/OwnerPanel";
 import OrderPanel from "./Components/OrderPanel";
-import Logup from "./Components/Signup";
+import SignUp from "./Components/SignUp";
 import OwnerLogin from "./Components/OwnerLogin";
 import OrderManagement from "./Components/OwnerPage/OrderManagement";
 import ProductManagement from "./Components/OwnerPage/ProductManagement";
@@ -69,7 +69,7 @@ const App = () => {
 
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<OrderPanel />} />
-        <Route path="/signup" element={<Logup />} />
+        <Route path="/signup" element={<SignUp />} />
 
         {/* OWNER */}
         <Route path="/owner-login" element={<OwnerLogin />} />
