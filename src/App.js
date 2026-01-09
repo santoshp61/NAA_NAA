@@ -15,14 +15,15 @@ import Services from "./Components/Services";
 import Contact from "./Components/Contact";
 import Login from "./Components/Login";
 import Cart from "./Components/Cart";
-import OwnerPanel from "./Components/OwnerPanel";
 import OrderPanel from "./Components/OrderPanel";
 import SignUp from "./Components/SignUp";
+import OwnerPanel from "./Components/OwnerPanel";
 import OwnerLogin from "./Components/OwnerLogin";
 import OrderManagement from "./Components/OwnerPage/OrderManagement";
 import ProductManagement from "./Components/OwnerPage/ProductManagement";
 import UserDetails from "./Components/OwnerPage/UserDetails";
 import TotalRevenue from "./Components/OwnerPage/TotalRevinue";
+import PrivateRoute from "./Components/PrivateRoute";
 
 /* 🔹 Backend URL */
 axios.defaults.baseURL = "http://localhost:5000";
@@ -30,12 +31,12 @@ axios.defaults.baseURL = "http://localhost:5000";
 const App = () => {
   const [user, setUser] = useState(null);
 
-  /* 🔹 Check login status once */
+  /* 🔹 Check login from localStorage */
   useEffect(() => {
-    axios
-      .get("/auth/me", { withCredentials: true })
-      .then(res => setUser(res.data))
-      .catch(() => setUser(null));
+    const token = localStorage.getItem("token");
+    if (token) {
+      setUser({ loggedIn: true });
+    }
   }, []);
 
   return (
@@ -61,15 +62,28 @@ const App = () => {
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
 
-        {/* 🔹 LOGIN WITH BACKEND ACCESS */}
+        {/* LOGIN */}
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<SignUp />} />
+
+        {/* PROTECTED USER ROUTES */}
         <Route
-          path="/login"
-          element={<Login setUser={setUser} />}
+          path="/cart"
+          element={
+            <PrivateRoute>
+              <Cart />
+            </PrivateRoute>
+          }
         />
 
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/order" element={<OrderPanel />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/order"
+          element={
+            <PrivateRoute>
+              <OrderPanel />
+            </PrivateRoute>
+          }
+        />
 
         {/* OWNER */}
         <Route path="/owner-login" element={<OwnerLogin />} />
