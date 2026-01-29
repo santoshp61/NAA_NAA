@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setUser(null);
     };
+    gti s
     return (
         <AuthContext.Provider value={{ user, login, logout }}>
             {children}
